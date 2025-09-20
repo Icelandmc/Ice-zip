@@ -2,12 +2,12 @@
 The better zip format (icezip)
 
 
-#Overview
+# Overview
 
 ICEZIP is a lightweight, fast, and advanced file packaging format.
 It works like ZIP but with custom header, manifest management, and CLI tools. It is designed to store multiple files and folders in a single package efficiently.
 
-#Features
+# Features
 
 Create ICEZIP archives from multiple files and folders
 
@@ -20,7 +20,7 @@ View archive contents or manifest.json
 Lightweight, fast, and portable
 
 
-#Installation
+# Installation
 
 1. Download icezip.py from GitHub:
 
@@ -38,7 +38,7 @@ sudo mv icezip.py /usr/local/bin/icezip
 
 
 
-#Usage
+# Usage
 
 icezip create archive.icezip file1.txt file2.png       # Create a new archive
 icezip read archive.icezip                            # Read and display files
@@ -47,7 +47,7 @@ icezip extract archive.icezip ./output_folder        # Extract all files
 icezip add archive.icezip newfile.txt                # Add files to archive
 icezip remove archive.icezip file1.txt               # Remove files from archive
 
-#Manifest
+# Manifest
 
 Each ICEZIP archive contains a manifest.json file internally that tracks:
 
@@ -59,7 +59,7 @@ Metadata (future extensions possible)
 
 ---
 
-###FAQ 
+### FAQ 
 
 Q1: What is ICEZIP?
 A1: ICEZIP is a custom archive format based on ZIP, designed to be fast, lightweight, and easily manageable via CLI.
