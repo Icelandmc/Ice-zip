@@ -4,7 +4,7 @@ setup(
     name="icezip",
     version="1.0.2",
     description="Advanced lightweight ICEZIP archive tool",
-    author:"Iceland",
+    author="Iceland",
     author_email="icelandmc.help@gmail.com",
     url="https://github.com/Icelandmc/Ice-zip",
     py_modules=["icezip"],
