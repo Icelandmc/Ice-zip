@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="icezip",
-    version="1.0.0",
+    version="1.0.2",
     description="Advanced lightweight ICEZIP archive tool",
-    author="YourName",
-    author_email="you@example.com",
-    url="https://github.com/username/icezip",
+    author:"Iceland",
+    author_email="icelandmc.help@gmail.com",
+    url="https://github.com/Icelandmc/Ice-zip",
     py_modules=["icezip"],
     entry_points={
         "console_scripts": ["icezip=icezip:main"]
