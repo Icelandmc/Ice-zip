@@ -1,31 +1,67 @@
-name: Publish Python Package
+name: Build, Publish to PyPI & GitHub Packages
 
 on:
   push:
     branches: [ main ]
 
+env:
+  PACKAGE_NAME: icezip
+  PYTHON_VERSION: "3.11"
+  DIST_DIR: dist
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Install build tools
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+    - name: Install build tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine setuptools wheel
 
-      - name: Build package
-        run: python -m build
+    - name: Build package
+      run: python -m build
 
-      - name: Publish package to GitHub Packages
-        run: |
-          python -m twine upload --repository github dist/*
-        env:
-          TWINE_USERNAME: ${{ github.actor }}
-          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    # ---------- Publish to PyPI ----------
+    - name: Publish package to PyPI
+      run: |
+        echo "[distutils]" > ~/.pypirc
+        echo "index-servers = pypi" >> ~/.pypirc
+        echo "" >> ~/.pypirc
+        echo "[pypi]" >> ~/.pypirc
+        echo "repository = https://upload.pypi.org/legacy/" >> ~/.pypirc
+        echo "username = __token__" >> ~/.pypirc
+        echo "password = ${{ secrets.PYPI_API_TOKEN }}" >> ~/.pypirc
+        python -m twine upload --repository pypi ${{ env.DIST_DIR }}/*
+
+    # ---------- Publish to GitHub Packages ----------
+    - name: Publish package to GitHub Packages
+      run: |
+        echo "[distutils]" > ~/.pypirc
+        echo "index-servers = github" >> ~/.pypirc
+        echo "" >> ~/.pypirc
+        echo "[github]" >> ~/.pypirc
+        echo "repository: https://upload.pypi.pkg.github.com/${{ github.repository_owner }}/" >> ~/.pypirc
+        echo "username: __token__" >> ~/.pypirc
+        echo "password: ${{ secrets.GITHUB_TOKEN }}" >> ~/.pypirc
+        python -m twine upload --repository github ${{ env.DIST_DIR }}/*
+
+    # ---------- Test install from PyPI ----------
+    - name: Test install from PyPI
+      run: |
+        pip install ${{ env.PACKAGE_NAME }}
+        icezip --help
+
+    # ---------- Test install from GitHub Packages ----------
+    - name: Test install from GitHub Packages
+      run: |
+        pip install --index-url https://__token__:${{ secrets.GITHUB_TOKEN }}@pypi.pkg.github.com/${{ github.repository_owner }}/simple ${{ env.PACKAGE_NAME }}
+        icezip --help
