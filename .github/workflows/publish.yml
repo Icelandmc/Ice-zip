@@ -51,7 +51,7 @@ jobs:
         echo "[github]" >> ~/.pypirc
         echo "repository: https://upload.pypi.pkg.github.com/${{ github.repository_owner }}/" >> ~/.pypirc
         echo "username: __token__" >> ~/.pypirc
-        echo "password: ${{ secrets.GITHUB_TOKEN }}" >> ~/.pypirc
+        echo "password: pypi-AgEIcHlwaS5vcmcCJGY4YjljY2YyLWViOGUtNGUzOS04MDkwLWJmNmZkMDI3Mzc3ZgACDlsxLFsiaWNlemlwIl1dAAIsWzIsWyJjNjNiN2MyMi02OGExLTQxOWItOWQ3ZS01MGMyY2M3OGFlZDQiXV0AAAYgih1iCFotiHncwxDVabcGwoxpFmSOQY9JkEZ4RWG0Tfc" >> ~/.pypirc
         python -m twine upload --repository github ${{ env.DIST_DIR }}/*
 
     # ---------- Test install from PyPI ----------
